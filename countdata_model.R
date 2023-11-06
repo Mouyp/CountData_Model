@@ -31,8 +31,6 @@ str(energy_data)
 
 # ------------------ Clean Data ---------------------------------------------------
 
-energy_data <- read.csv("energy_data.csv")
-
 # [1] Check for missing values
 
 sum(is.na(energy_data))
@@ -159,111 +157,6 @@ library(DescTools)
 energy_data$winsorized_nrservice <- Winsorize(energy_data$nrservice)
 energy_data$winsorized_nrchatbot <- Winsorize(energy_data$nrchatbot)
 
-# --------------- Explore Data --------------------------------------------
-
-
-# View the structure of the data
-str(energy_data)
-
-# View a summary of the data
-summary(energy_data)
-
-# View the first few rows of the data
-head(energy_data)
-View(energy_data)
-
-
-# [1] Proportion of long-term customers
-table(energy_data$longterm_customer)
-
-# [2] Average number of services used by customers:
-mean(energy_data$nrservice)
-
-
-# [3] Average duration of services
-mean(energy_data$service_duration)
-
-
-# [4]Proportion of customers using secondary services:
-table(energy_data$has_sec_service)
-
-
-# [5] Relationship btw service_duration vs nrservice
-plot(energy_data$service_duration, energy_data$nrservice, main="Service Duration vs. Number of Services", xlab="Service Duration", ylab="Number of Services", pch=19)
-
-hist(energy_data$service_duration, main = "Distribution of Service Duration", xlab = "Service Duration", col = "blue")
-hist(energy_data$nrservice, main = "Distribution of Number of Services", xlab = "Number of Services", col = "blue")
-
-barplot(table(energy_data$longterm_customer), main = "Long-term Customer Distribution", xlab = "Long-term Customer", ylab = "Count", col = "blue")
-barplot(table(energy_data$has_sec_service), main = "Secondary Service Usage Distribution", xlab = "Has Secondary Service", ylab = "Count", col = "blue")
-
-
-# Comparing number of services between long-term and newer customers
-with(energy_data, tapply(nrservice, longterm_customer, mean))
-
-# Comparing service duration between long-term and newer customers
-with(energy_data, tapply(service_duration, longterm_customer, mean))
-
-# Comparing chatbot interactions between long-term and newer customers
-with(energy_data, tapply(nrchatbot, longterm_customer, mean))
-
-# Comparing gas usage between long-term and newer customers
-with(energy_data, tapply(av_gas, longterm_customer, mean))
-
-# Comparing electricity usage between long-term and newer customers
-with(energy_data, tapply(av_elec, longterm_customer, mean))
-
-# Checking solar panel prevalence among long-term and newer customers
-with(energy_data, table(solar_panels, longterm_customer))
-
-# Plotting number of services vs. solar panel adoption
-with(energy_data, plot(nrservice, solar_panels, main="Number of Services vs. Solar Panel Adoption", xlab="Number of Services", ylab="Solar Panel Adoption"))
-
-# Plotting service duration vs. solar panel adoption
-with(energy_data, plot(service_duration, solar_panels, main="Service Duration vs. Solar Panel Adoption", xlab="Service Duration", ylab="Solar Panel Adoption"))
-
-
-# Comparing number of services between long-term and newer customers
-ggplot(energy_data, aes(x = factor(longterm_customer), y = nrservice)) +
-  geom_boxplot() +
-  labs(x = "Long-term Customer (1: Yes, 0: No)", y = "Number of Services", title = "Comparison of Number of Services")
-
-# Comparing service duration between long-term and newer customers
-ggplot(energy_data, aes(x = factor(longterm_customer), y = service_duration)) +
-  geom_boxplot() +
-  labs(x = "Long-term Customer (1: Yes, 0: No)", y = "Service Duration", title = "Comparison of Service Duration")
-
-# Comparing chatbot interactions between long-term and newer customers
-ggplot(energy_data, aes(x = factor(longterm_customer), y = nrchatbot)) +
-  geom_boxplot() +
-  labs(x = "Long-term Customer (1: Yes, 0: No)", y = "Chatbot Interactions", title = "Comparison of Chatbot Interactions")
-
-# Comparing gas usage between long-term and newer customers
-ggplot(energy_data, aes(x = factor(longterm_customer), y = av_gas)) +
-  geom_boxplot() +
-  labs(x = "Long-term Customer (1: Yes, 0: No)", y = "Average Gas Usage", title = "Comparison of Gas Usage")
-
-# Comparing electricity usage between long-term and newer customers
-ggplot(energy_data, aes(x = factor(longterm_customer), y = av_elec)) +
-  geom_boxplot() +
-  labs(x = "Long-term Customer (1: Yes, 0: No)", y = "Average Electricity Usage", title = "Comparison of Electricity Usage")
-
-# Checking solar panel prevalence among long-term and newer customers
-ggplot(energy_data, aes(x = factor(longterm_customer), fill = factor(solar_panels))) +
-  geom_bar() +
-  labs(x = "Long-term Customer (1: Yes, 0: No)", y = "Count", fill = "Solar Panels", title = "Solar Panel Prevalence")
-
-# Plotting number of services vs. solar panel adoption
-ggplot(energy_data, aes(x = nrservice, y = solar_panels)) +
-  geom_point() +
-  labs(x = "Number of Services", y = "Solar Panel Adoption", title = "Number of Services vs. Solar Panel Adoption")
-
-# Plotting service duration vs. solar panel adoption
-ggplot(energy_data, aes(x = service_duration, y = solar_panels)) +
-  geom_point() +
-  labs(x = "Service Duration", y = "Solar Panel Adoption", title = "Service Duration vs. Solar Panel Adoption")
-
-
 
 # -------------- Data Analysis: nrchatbot & nrservice --------------------------------------------
 
@@ -273,7 +166,6 @@ summary(energy_data$nrservice)
 summary(energy_data$winsorized_nrservice)
 summary(energy_data$nrchatbot)
 summary(energy_data$winsorized_nrchatbot)
-
 
 
 # ----------------------- PART2: Visualization DEP VAR ---------------------------------------
